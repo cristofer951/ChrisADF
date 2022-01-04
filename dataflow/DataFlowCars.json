@@ -1,0 +1,32 @@
+{
+	"name": "DataFlowCars",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "CarCSV",
+						"type": "DatasetReference"
+					},
+					"name": "CARCSV"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "carTable",
+						"type": "DatasetReference"
+					},
+					"name": "CarSQL"
+				}
+			],
+			"transformations": [
+				{
+					"name": "DerivedColumn1"
+				}
+			],
+			"script": "source(output(\n\t\tCar as string,\n\t\tAceleration as string,\n\t\tModel as string,\n\t\tOrigin as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> CARCSV\nCARCSV derive(Origin = toInteger(Origin) + 5,\n\t\tModel = Model + \" - Data Flow Process\") ~> DerivedColumn1\nDerivedColumn1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tCar as string,\n\t\tAceleration as string,\n\t\tModel as string,\n\t\tOrigin as integer\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> CarSQL"
+		}
+	}
+}
