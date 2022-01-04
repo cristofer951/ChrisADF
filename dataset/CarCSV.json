@@ -1,0 +1,40 @@
+{
+	"name": "CarCSV",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "inputBlob",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "cars.csv",
+				"container": "input"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "Car",
+				"type": "String"
+			},
+			{
+				"name": "Aceleration",
+				"type": "String"
+			},
+			{
+				"name": "Model",
+				"type": "String"
+			},
+			{
+				"name": "Origin",
+				"type": "String"
+			}
+		]
+	}
+}
